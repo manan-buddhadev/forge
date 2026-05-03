@@ -2,6 +2,8 @@
 
 A Claude Code skill that convenes a panel of AI personas to debate, refine, or brainstorm any question. Three modes: stress-test a proposal, sharpen a rough idea, or generate options from scratch. Finance, product, and engineering domain overlays. No external APIs — pure Claude.
 
+---
+
 ## Skills
 
 | Command | Use when |
@@ -9,6 +11,43 @@ A Claude Code skill that convenes a panel of AI personas to debate, refine, or b
 | `/forge:debate` | You have a proposal and want it stress-tested |
 | `/forge:hone` | You have a rough idea and want it sharpened |
 | `/forge:brainstorm` | You have a problem and need options generated |
+
+---
+
+## Install as plugin
+
+```
+/plugin marketplace add manan-buddhadev/forge
+/plugin install forge:debate@forge
+/plugin install forge:hone@forge
+/plugin install forge:brainstorm@forge
+```
+
+---
+
+## Install as standalone skills
+
+```bash
+git clone https://github.com/manan-buddhadev/forge.git /tmp/forge
+cp -r /tmp/forge/skills/debate ~/.claude/skills/forge-debate
+cp -r /tmp/forge/skills/hone ~/.claude/skills/forge-hone
+cp -r /tmp/forge/skills/brainstorm ~/.claude/skills/forge-brainstorm
+cp -r /tmp/forge/personas ~/.claude/skills/forge-debate/../../personas 2>/dev/null || true
+```
+
+---
+
+## Usage
+
+```
+/forge:debate "We should use JWTs in localStorage for auth" --roles=engineering
+/forge:hone "Series A at $8M ARR, 3x growth" --roles=finance
+/forge:brainstorm "How do we build a hedge fund algorithm?" --roles=finance
+/forge:brainstorm "How should we monetize our dev tool?" --roles=product
+/forge:debate "Should I join a startup or big tech?"
+```
+
+---
 
 ## Persona Presets
 
@@ -19,23 +58,7 @@ A Claude Code skill that convenes a panel of AI personas to debate, refine, or b
 | `product` | User Researcher, PM, Growth Strategist, Competitive Intel | Product strategy, monetization, go-to-market |
 | `engineering` | Security, Performance, Maintainability, Simplicity, Scalability, DX, Compliance | Technical architecture and code review |
 
-## Usage
-
-```bash
-# Stress-test a proposal
-/forge:debate "We should store sessions in Redis with a 24h TTL" --roles=engineering
-
-# Sharpen a rough financial idea
-/forge:hone "Series A at $8M ARR, 3x growth" --roles=finance
-
-# Generate options from scratch
-/forge:brainstorm "How do we build a hedge fund algorithm?" --roles=finance
-/forge:brainstorm "How should we monetize our dev tool?" --roles=product
-
-# Default personas work for anything
-/forge:debate "Should I join a startup or big tech?"
-/forge:brainstorm "How do we reduce customer churn?"
-```
+---
 
 ## Options
 
@@ -51,24 +74,16 @@ A Claude Code skill that convenes a panel of AI personas to debate, refine, or b
 --output=<path>       Export session to markdown
 ```
 
-## Installation
-
-Add to your Claude Code project:
-
-```bash
-cd your-project/.claude/skills
-git clone https://github.com/manan-buddhadev/forge
-```
-
-Or install globally:
-
-```bash
-cd ~/.claude/plugins
-git clone https://github.com/manan-buddhadev/forge
-```
-
 Sessions save to `.claude/forge-history/`. Cache in `.claude/forge-cache/`.
+
+---
 
 ## How It Works
 
 Each `/forge` command spawns one Claude sub-agent per persona using the Agent tool. In `parallel` mode all personas run simultaneously. In `sequential` mode each persona reads prior responses before replying. A Moderator agent synthesizes the full transcript into a structured verdict.
+
+---
+
+## License
+
+MIT
