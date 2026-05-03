@@ -79,6 +79,70 @@ Each `/forge` command spawns one Claude sub-agent per persona using the Agent to
 
 ---
 
+## Examples
+
+### Stress-test a technical decision
+```
+/forge:debate "We should store sessions in localStorage with JWTs" --roles=engineering
+```
+**What happens:** Security Auditor flags XSS exposure, Performance optimizer notes cold-start latency, Simplicity champion argues it's the right call for small teams, Compliance officer flags GDPR implications. Moderator verdict: conditional yes with `HttpOnly` cookie fallback for regulated data.
+
+---
+
+### Sharpen a fundraising narrative
+```
+/forge:hone "Series A at $8M ARR, 3x growth, targeting $20M raise" --roles=finance
+```
+**What happens:** Quant Analyst stress-tests the growth multiple against sector comps, Risk Manager asks about net revenue retention and churn, Portfolio Manager reframes the narrative for LP expectations, Economist flags macro headwinds. Moderator delivers a sharpened pitch with three gaps to close before the raise.
+
+---
+
+### Generate options for a hard problem
+```
+/forge:brainstorm "How do we reduce churn for our B2B SaaS product?" --roles=product
+```
+**What happens:** User Researcher proposes an onboarding redesign based on activation gaps, PM prioritizes a health-score alerting system, Growth Strategist suggests a paid success tier, Competitive Intel maps where competitors are winning at-risk accounts. Moderator surfaces three distinct bets with a recommended starting point.
+
+---
+
+### Multi-round sequential debate
+```
+/forge:debate "Should we go multi-tenant or single-tenant SaaS?" --rounds=3 --mode=sequential
+```
+**What happens:** Round 1 each persona stakes a position. Round 2 each reads the prior speaker and adjusts or sharpens. Round 3 personas respond to convergences and remaining disagreements. Moderator synthesizes into a decision framework with a clear recommendation.
+
+---
+
+## Token Usage
+
+Token costs grow with personas, rounds, and mode. Estimates below assume 6 personas (default preset), standard verbosity, and a ~50-token question.
+
+| Mode | 1 round | 2 rounds | 3 rounds |
+|---|---|---|---|
+| `parallel` | ~12k | ~30k | ~55k |
+| `sequential` | ~18k | ~50k | ~95k |
+
+**Why sequential costs more:** each persona in a round reads all prior speakers' responses. Context grows quadratically within a round. In parallel mode every persona starts from just the question — prior-round transcripts are added flat per round, not per persona.
+
+**Levers to reduce cost:**
+- `--verbosity=brief` cuts per-persona response length ~50%
+- `--rounds=1` skips refinement entirely
+- `--roles=finance` (4 personas) vs `default` (6 personas) saves ~30%
+- `--quiet` suppresses streaming output but doesn't change token cost
+
+```mermaid
+xychart-beta
+    title "Estimated token usage (thousands)"
+    x-axis ["1 round", "2 rounds", "3 rounds"]
+    y-axis "Tokens (k)" 0 --> 100
+    line [12, 30, 55]
+    line [18, 50, 95]
+```
+
+> Lines: parallel (lower) vs sequential (upper)
+
+---
+
 ## License
 
 MIT
