@@ -1,0 +1,10 @@
+{
+  "name": "forge",
+  "version": "1.0.0",
+  "description": "Multi-persona Claude debate skill. Stress-test proposals, sharpen rough ideas, or generate options from scratch. Finance, product, and engineering domain overlays. No external APIs — pure Claude.",
+  "author": {
+    "name": "manan-buddhadev"
+  },
+  "skills": "./skills/",
+  "keywords": ["debate", "brainstorm", "personas", "decision", "finance", "product", "engineering", "council", "multi-agent"]
+}

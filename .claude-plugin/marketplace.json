@@ -1,0 +1,25 @@
+{
+  "name": "forge",
+  "owner": {
+    "name": "manan-buddhadev",
+    "url": "https://github.com/manan-buddhadev"
+  },
+  "metadata": {
+    "description": "Multi-persona Claude debate skill. Stress-test proposals, sharpen rough ideas, or generate options from scratch. Finance, product, and engineering domain overlays. No external APIs — pure Claude.",
+    "version": "1.0.0",
+    "category": "productivity",
+    "keywords": ["debate", "brainstorm", "personas", "decision", "finance", "product", "engineering", "council", "multi-agent"],
+    "repository": "https://github.com/manan-buddhadev/forge"
+  },
+  "plugins": [
+    {
+      "name": "forge",
+      "source": "./",
+      "description": "Multi-persona Claude debate skill with three modes: debate, hone, brainstorm. Domain presets for finance, product, and engineering.",
+      "version": "1.0.0",
+      "keywords": ["debate", "brainstorm", "personas", "decision", "finance", "product", "engineering"],
+      "category": "productivity",
+      "skills": "./skills/"
+    }
+  ]
+}
