@@ -14,25 +14,20 @@ A Claude Code skill that convenes a panel of AI personas to debate, refine, or b
 
 ---
 
-## Install as plugin
+## Install
 
 ```
 /plugin marketplace add manan-buddhadev/forge
-/plugin install forge:debate@forge
-/plugin install forge:hone@forge
-/plugin install forge:brainstorm@forge
+/plugin install forge@forge
 ```
 
 ---
 
-## Install as standalone skills
+## Dev / local use
 
 ```bash
-git clone https://github.com/manan-buddhadev/forge.git /tmp/forge
-cp -r /tmp/forge/skills/debate ~/.claude/skills/forge-debate
-cp -r /tmp/forge/skills/hone ~/.claude/skills/forge-hone
-cp -r /tmp/forge/skills/brainstorm ~/.claude/skills/forge-brainstorm
-cp -r /tmp/forge/personas ~/.claude/skills/forge-debate/../../personas 2>/dev/null || true
+git clone https://github.com/manan-buddhadev/forge.git
+claude --plugin-dir ./forge
 ```
 
 ---

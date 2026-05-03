@@ -18,8 +18,7 @@
       "description": "Multi-persona Claude debate skill with three modes: debate, hone, brainstorm. Domain presets for finance, product, and engineering.",
       "version": "1.0.0",
       "keywords": ["debate", "brainstorm", "personas", "decision", "finance", "product", "engineering"],
-      "category": "productivity",
-      "skills": "./skills/"
+      "category": "productivity"
     }
   ]
 }

@@ -52,8 +52,7 @@ Examples:
 Same as forge:debate. Read each persona file using the Read tool.
 
 **Persona path resolution:**
-Your base directory is provided in context as `Base directory for this skill: <path>`.
-Persona files live two levels up: `<base-dir>/../../personas/<domain>/<file>.md`
+Persona files are at `${CLAUDE_PLUGIN_ROOT}/personas/<domain>/<file>.md`
 
 **Role → file mapping (domain/filename):**
 

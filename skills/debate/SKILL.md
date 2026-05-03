@@ -76,9 +76,7 @@ Examples:
 - `engineering` → `security, performance, maintainability, simplicity, scalability, developer-experience, compliance`
 
 **Persona path resolution:**
-Your base directory is provided in context as `Base directory for this skill: <path>`.
-Persona files live two levels up from that base: `<base-dir>/../../personas/<domain>/<file>.md`
-Example: if base is `/home/user/.claude/plugins/forge/skills/debate`, persona path is `/home/user/.claude/plugins/forge/personas/default/first-principles.md`.
+Persona files are at `${CLAUDE_PLUGIN_ROOT}/personas/<domain>/<file>.md`
 
 **Role → file mapping (domain/filename):**
 
