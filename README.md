@@ -1,6 +1,8 @@
-# Forge
+# Forge — Multi-Agent Claude Council for Claude Code
 
-A Claude Code skill that convenes a panel of AI personas to debate, refine, or brainstorm any question. Three modes: stress-test a proposal, sharpen a rough idea, or generate options from scratch. Finance, product, and engineering domain overlays. No external APIs — pure Claude.
+**Forge** is a Claude Code plugin that convenes a panel of Claude AI personas to debate, refine, or brainstorm any question. Think of it as a claude-council: multiple expert sub-agents argue from different lenses, then a Moderator synthesizes a structured verdict. Three modes, four domain presets, no external APIs — pure Claude.
+
+> Looking for a **claude-council**, **multi-agent Claude debate**, or **Claude Code brainstorm plugin**? This is it.
 
 ---
 
@@ -75,7 +77,9 @@ Sessions save to `.claude/forge-history/`. Cache in `.claude/forge-cache/`.
 
 ## How It Works
 
-Each `/forge` command spawns one Claude sub-agent per persona using the Agent tool. In `parallel` mode all personas run simultaneously. In `sequential` mode each persona reads prior responses before replying. A Moderator agent synthesizes the full transcript into a structured verdict.
+Each `/forge` command spawns one Claude sub-agent per persona using the Agent tool — a multi-agent Claude council running inside Claude Code. In `parallel` mode all personas run simultaneously. In `sequential` mode each persona reads prior responses before replying. A Moderator agent synthesizes the full transcript into a structured verdict.
+
+Forge is the Claude-only alternative to multi-provider AI councils like [claude-council](https://github.com/hex/claude-council). No OpenAI or Gemini keys required — every persona is Claude.
 
 ---
 
@@ -140,6 +144,14 @@ xychart-beta
 ```
 
 > Lines: parallel (lower) vs sequential (upper)
+
+---
+
+## Related / See Also
+
+- [hex/claude-council](https://github.com/hex/claude-council) — original multi-provider council (OpenAI + Gemini + Claude). Forge is the Claude-only alternative.
+
+**Search terms this project covers:** claude council · claude-council · claude code plugin · claude code skill · multi-agent claude · claude debate · claude brainstorm · claude personas · ai council · claude code multi-agent · claude stress test · claude expert panel · anthropic multi-agent · claude code brainstorm plugin
 
 ---
 
