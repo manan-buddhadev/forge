@@ -1,7 +1,7 @@
 {
   "name": "forge",
   "version": "1.0.0",
-  "description": "Multi-persona Claude debate skill. Stress-test proposals, sharpen rough ideas, or generate options from scratch. Finance, product, and engineering domain overlays. No external APIs — pure Claude.",
+  "description": "Multi-agent idea refinement tool. Convene a panel of expert AI personas to debate, hone, or brainstorm any question. Finance, product, and engineering domain presets. Works in Claude Code, Kiro, and any AI IDE.",
   "author": {
     "name": "manan-buddhadev"
   },

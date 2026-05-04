@@ -1,47 +1,51 @@
-# Forge — Multi-Agent Claude Council for Claude Code
+# Forge
 
-**Forge** is a Claude Code plugin that convenes a panel of Claude AI personas to debate, refine, or brainstorm any question. Think of it as a claude-council: multiple expert sub-agents argue from different lenses, then a Moderator synthesizes a structured verdict. Three modes, four domain presets, no external APIs — pure Claude.
+**Forge** convenes a panel of AI expert personas to debate, refine, or brainstorm any idea. Each expert argues from their own lens. A Moderator synthesizes a verdict. Three modes, four domain presets.
 
-> Looking for a **claude-council**, **multi-agent Claude debate**, or **Claude Code brainstorm plugin**? This is it.
+Use it when you want a second opinion that actually pushes back.
 
 ---
 
-## Skills
+## Modes
 
-| Command | Use when |
+| Mode | Use when |
 |---|---|
-| `/forge:debate` | You have a proposal and want it stress-tested |
-| `/forge:hone` | You have a rough idea and want it sharpened |
-| `/forge:brainstorm` | You have a problem and need options generated |
+| `debate` | You have a proposal and want it stress-tested |
+| `hone` | You have a rough idea and want it sharpened |
+| `brainstorm` | You have a problem and need options generated |
 
 ---
 
-## Install
+## Use With
 
+**Claude Code**
 ```
 /plugin marketplace add manan-buddhadev/forge
 /plugin install forge@forge
 ```
+Then: `/forge:debate "your proposal"`
+
+**Kiro / any AI IDE**
+Type in chat:
+```
+forge debate: your proposal
+forge hone: your rough idea
+forge brainstorm: your problem
+```
+The `.kiro/steering/forge.md` file teaches your AI assistant to run the full session.
+
+**CLI** — coming soon (`npx forge debate "..."`)
 
 ---
 
-## Dev / local use
-
-```bash
-git clone https://github.com/manan-buddhadev/forge.git
-claude --plugin-dir ./forge
-```
-
----
-
-## Usage
+## Examples
 
 ```
-/forge:debate "We should use JWTs in localStorage for auth" --roles=engineering
-/forge:hone "Series A at $8M ARR, 3x growth" --roles=finance
-/forge:brainstorm "How do we build a hedge fund algorithm?" --roles=finance
-/forge:brainstorm "How should we monetize our dev tool?" --roles=product
-/forge:debate "Should I join a startup or big tech?"
+forge debate: We should use JWTs in localStorage for auth
+forge hone: Series A at $8M ARR, 3x growth, targeting $20M raise
+forge brainstorm: How do we reduce churn for our B2B SaaS?
+forge debate: Should I join a startup or big tech?
+forge brainstorm: How do we build a hedge fund algorithm? --roles=finance
 ```
 
 ---
@@ -60,79 +64,74 @@ claude --plugin-dir ./forge
 ## Options
 
 ```
---roles=<list>        Role names or preset (default: default)
---rounds=<n>          Rounds 1-5 (default: 2)
---mode=<mode>         parallel or sequential (default: parallel)
+--roles=<preset>      default | finance | product | engineering
+--rounds=<n>          1-5 (default: 2)
+--mode=<mode>         parallel | sequential (default: parallel)
 --verbosity=<v>       brief | standard | detailed (default: standard)
---file=<path>         Attach file as context
---no-auto-context     Skip automatic file detection
---no-cache            Force fresh session
 --quiet               Show only final verdict
 --output=<path>       Export session to markdown
 ```
-
-Sessions save to `.claude/forge-history/`. Cache in `.claude/forge-cache/`.
 
 ---
 
 ## How It Works
 
-Each `/forge` command spawns one Claude sub-agent per persona using the Agent tool — a multi-agent Claude council running inside Claude Code. In `parallel` mode all personas run simultaneously. In `sequential` mode each persona reads prior responses before replying. A Moderator agent synthesizes the full transcript into a structured verdict.
+Forge spawns one expert persona per round. In `parallel` mode all personas respond independently — faster, no cross-influence. In `sequential` mode each persona reads prior responses before replying — slower, but positions evolve and converge.
 
-Forge is the Claude-only alternative to multi-provider AI councils like [claude-council](https://github.com/hex/claude-council). No OpenAI or Gemini keys required — every persona is Claude.
-
----
-
-## Examples
-
-### Stress-test a technical decision
-```
-/forge:debate "We should store sessions in localStorage with JWTs" --roles=engineering
-```
-**What happens:** Security Auditor flags XSS exposure, Performance optimizer notes cold-start latency, Simplicity champion argues it's the right call for small teams, Compliance officer flags GDPR implications. Moderator verdict: conditional yes with `HttpOnly` cookie fallback for regulated data.
+After all rounds a Moderator synthesizes the transcript: consensus, divergence, recommendation, and confidence rating.
 
 ---
 
-### Sharpen a fundraising narrative
-```
-/forge:hone "Series A at $8M ARR, 3x growth, targeting $20M raise" --roles=finance
-```
-**What happens:** Quant Analyst stress-tests the growth multiple against sector comps, Risk Manager asks about net revenue retention and churn, Portfolio Manager reframes the narrative for LP expectations, Economist flags macro headwinds. Moderator delivers a sharpened pitch with three gaps to close before the raise.
+## Example Output
 
----
+```
+╔══════════════════════════════════════════════════════════╗
+║  FORGE — DEBATE                                          ║
+╚══════════════════════════════════════════════════════════╝
 
-### Generate options for a hard problem
-```
-/forge:brainstorm "How do we reduce churn for our B2B SaaS product?" --roles=product
-```
-**What happens:** User Researcher proposes an onboarding redesign based on activation gaps, PM prioritizes a health-score alerting system, Growth Strategist suggests a paid success tier, Competitive Intel maps where competitors are winning at-risk accounts. Moderator surfaces three distinct bets with a recommended starting point.
+Proposal: We should use JWTs in localStorage for auth
+Personas: Security Auditor, Performance, Simplicity, Compliance
+Rounds:   2 | Mode: parallel
 
----
+─── Round 1 | Security Auditor ─────────────────────────────
 
-### Multi-round sequential debate
+XSS is the critical failure mode here. Any script injected into
+your page can read localStorage — JWT included. The blast radius
+is total: attacker gets a valid session token with no expiry
+enforcement on the client side...
+
+─── Round 1 | Simplicity Champion ──────────────────────────
+
+For a small team with no regulated data, this is the right call.
+HttpOnly cookies require backend coordination, CSRF tokens, and
+same-site configuration. localStorage is two lines of code...
+
+══════════════════════════════════════════════════════════════
+  FORGE VERDICT
+══════════════════════════════════════════════════════════════
+
+Consensus: localStorage JWTs are acceptable for low-risk apps
+with no PII or regulated data.
+
+Recommendation: Use HttpOnly cookies if you handle any sensitive
+data. Use localStorage only if XSS risk is actively mitigated
+(CSP headers, no third-party scripts).
+
+Confidence: HIGH
+
+══════════════════════════════════════════════════════════════
 ```
-/forge:debate "Should we go multi-tenant or single-tenant SaaS?" --rounds=3 --mode=sequential
-```
-**What happens:** Round 1 each persona stakes a position. Round 2 each reads the prior speaker and adjusts or sharpens. Round 3 personas respond to convergences and remaining disagreements. Moderator synthesizes into a decision framework with a clear recommendation.
 
 ---
 
 ## Token Usage
-
-Token costs grow with personas, rounds, and mode. Estimates below assume 6 personas (default preset), standard verbosity, and a ~50-token question.
 
 | Mode | 1 round | 2 rounds | 3 rounds |
 |---|---|---|---|
 | `parallel` | ~12k | ~30k | ~55k |
 | `sequential` | ~18k | ~50k | ~95k |
 
-**Why sequential costs more:** each persona in a round reads all prior speakers' responses. Context grows quadratically within a round. In parallel mode every persona starts from just the question — prior-round transcripts are added flat per round, not per persona.
-
-**Levers to reduce cost:**
-- `--verbosity=brief` cuts per-persona response length ~50%
-- `--rounds=1` skips refinement entirely
-- `--roles=finance` (4 personas) vs `default` (6 personas) saves ~30%
-- `--quiet` suppresses streaming output but doesn't change token cost
+Assumes 6 personas (default), standard verbosity. Sequential costs more because each persona reads all prior responses — context grows within a round.
 
 ```mermaid
 xychart-beta
@@ -147,11 +146,11 @@ xychart-beta
 
 ---
 
-## Related / See Also
+## Related
 
-- [hex/claude-council](https://github.com/hex/claude-council) — original multi-provider council (OpenAI + Gemini + Claude). Forge is the Claude-only alternative.
+- [hex/claude-council](https://github.com/hex/claude-council) — original multi-provider council (OpenAI + Gemini + Claude)
 
-**Search terms this project covers:** claude council · claude-council · claude code plugin · claude code skill · multi-agent claude · claude debate · claude brainstorm · claude personas · ai council · claude code multi-agent · claude stress test · claude expert panel · anthropic multi-agent · claude code brainstorm plugin
+**Search:** claude council · claude-council · multi-agent debate · ai brainstorm tool · ai idea refinement · claude personas · ai expert panel · forge ai
 
 ---
 
